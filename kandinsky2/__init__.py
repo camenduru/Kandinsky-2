@@ -18,10 +18,10 @@ def get_kandinsky2_0(
     config = deepcopy(CONFIG_2_0)
     if task_type == "inpainting":
         model_name = "Kandinsky-2-0-inpainting.pt"
-        config_file_url = hf_hub_url(repo_id="sberbank-ai/Kandinsky_2.0", filename=model_name)
+        config_file_url = hf_hub_url(repo_id="ckpt/Kandinsky_2.0", filename=model_name)
     elif task_type == "text2img":
         model_name = "Kandinsky-2-0.pt"
-        config_file_url = hf_hub_url(repo_id="sberbank-ai/Kandinsky_2.0", filename=model_name)
+        config_file_url = hf_hub_url(repo_id="ckpt/Kandinsky_2.0", filename=model_name)
     else:
         raise ValueError("Only text2img, img2img and inpainting is available")
 
@@ -41,7 +41,7 @@ def get_kandinsky2_0(
         "tokenizer.json",
         "tokenizer_config.json",
     ]:
-        config_file_url = hf_hub_url(repo_id="sberbank-ai/Kandinsky_2.0", filename=f"text_encoder1/{name}")
+        config_file_url = hf_hub_url(repo_id="ckpt/Kandinsky_2.0", filename=f"text_encoder1/{name}")
         cached_download(
             config_file_url,
             cache_dir=cache_dir_text_en1,
@@ -57,7 +57,7 @@ def get_kandinsky2_0(
         "special_tokens_map.json",
         "tokenizer_config.json",
     ]:
-        config_file_url = hf_hub_url(repo_id="sberbank-ai/Kandinsky_2.0", filename=f"text_encoder2/{name}")
+        config_file_url = hf_hub_url(repo_id="ckpt/Kandinsky_2.0", filename=f"text_encoder2/{name}")
         cached_download(
             config_file_url,
             cache_dir=cache_dir_text_en2,
@@ -65,7 +65,7 @@ def get_kandinsky2_0(
             use_auth_token=use_auth_token,
         )
     
-    config_file_url = hf_hub_url(repo_id="sberbank-ai/Kandinsky_2.0", filename="vae.ckpt")
+    config_file_url = hf_hub_url(repo_id="ckpt/Kandinsky_2.0", filename="vae.ckpt")
     cached_download(
         config_file_url,
         cache_dir=cache_dir,
