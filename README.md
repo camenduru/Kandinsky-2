@@ -1,3 +1,27 @@
+# Kandinsky 2.2
+[![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1MfN9dfmejT8NjXhR353NeP5RzbruHgo7?usp=sharing)
+
+[Habr post](https://habr.com/ru/companies/sberbank/articles/747446/)
+
+[Demo fusionbrain.ai](https://fusionbrain.ai/diffusion)
+
+[Telegram-bot](https://t.me/kandinsky21_bot)
+
+Kandinsky 2.2 LORA
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1lUWfe4CWhPJhUZYjMAE7g4ciHX4764rN?usp=sharing)
+
+<p align="left">
+<img src="./content/kand_22.png" width="60%">
+</p>
+
+Kandinsky 2.2 brings substantial improvements upon its predecessor, Kandinsky 2.1, by introducing a new, more powerful image encoder - CLIP-ViT-G and the ControlNet support.
+
+The switch to CLIP-ViT-G as the image encoder significantly increases the model's capability to generate more aesthetic pictures and better understand text, thus enhancing the model's overall performance.
+
+The addition of the ControlNet mechanism allows the model to effectively control the process of generating images. This leads to more accurate and visually appealing outputs and opens new possibilities for text-guided image manipulation.
+
+
 # Kandinsky 2.1
 
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org/) [![Huggingface space](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/sberbank-ai/Kandinsky_2.1)
@@ -12,9 +36,12 @@
 
 ## Model architecture:
 
-![](./content/kandinsky21.png)
+<p align="left">
+<img src="./content/kandinsky21.png" width="80%">
+</p>
 
-Kandinsky 2.1 inherits best practicies from Dall-E 2 and Latent diffucion, while introducing some new ideas.
+
+Kandinsky 2.1 inherits best practicies from Dall-E 2 and Latent diffusion, while introducing some new ideas.
 
 As text and image encoder it uses CLIP model and diffusion image prior (mapping) between latent spaces of CLIP modalities. This approach increases the visual performance of the model and unveils new horizons in blending images and text-guided image manipulation.
 
@@ -42,11 +69,16 @@ Kandinsky 2.1 was trained on a large-scale image-text dataset LAION HighRes and 
 ```python
 from kandinsky2 import get_kandinsky2
 model = get_kandinsky2('cuda', task_type='text2img', model_version='2.1', use_flash_attention=False)
-images = model.generate_text2img('''red cat, 4k photo''', num_steps=100,
-                          batch_size=1, guidance_scale=4,
-                           h=768, w=768,
-                           sampler='p_sampler', prior_cf_scale=4,
-                           prior_steps="5",)
+images = model.generate_text2img(
+    "red cat, 4k photo", 
+    num_steps=100,
+    batch_size=1, 
+    guidance_scale=4,
+    h=768, w=768,
+    sampler='p_sampler', 
+    prior_cf_scale=4,
+    prior_steps="5"
+)
 ```
 
 ![](./content/einstein.png)
@@ -59,12 +91,19 @@ prompt: "Einstein in space around the logarithm scheme"
 from kandinsky2 import get_kandinsky2
 from PIL import Image
 model = get_kandinsky2('cuda', task_type='text2img', model_version='2.1', use_flash_attention=False)
-images_texts = ['red cat', Image.open('img1.jpg'), Image.open('img2.jpg'), 'a man']; weights = [0.25, 0.25, 0.25, 0.25]
-images = model.mix_images(images_texts, weights, num_steps=150,
-                          batch_size=1, guidance_scale=5,
-                         h=768, w=768,
-       sampler='p_sampler', prior_cf_scale=4,
-       prior_steps="5", negative_decoder_prompt='')
+images_texts = ['red cat', Image.open('img1.jpg'), Image.open('img2.jpg'), 'a man']
+weights = [0.25, 0.25, 0.25, 0.25]
+images = model.mix_images(
+    images_texts, 
+    weights, 
+    num_steps=150,
+    batch_size=1, 
+    guidance_scale=5,
+    h=768, w=768,
+    sampler='p_sampler', 
+    prior_cf_scale=4,
+    prior_steps="5"
+)
 ```
 
 ![](./content/fuse.png)
@@ -79,13 +118,19 @@ import numpy as np
 model = get_kandinsky2('cuda', task_type='inpainting', model_version='2.1', use_flash_attention=False)
 init_image = Image.open('img.jpg')
 mask = np.ones((768, 768), dtype=np.float32)
-mask[:550] =  0
-images = model.generate_inpainting('man 4k photo', init_image, mask, 
-                          num_steps=150,
-                          batch_size=1, guidance_scale=5,
-                          h=768, w=768,
-                          sampler='p_sampler', prior_cf_scale=4,
-                          prior_steps="5")
+mask[:,:550] =  0
+images = model.generate_inpainting(
+    'man 4k photo', 
+    init_image, 
+    mask, 
+    num_steps=150,
+    batch_size=1, 
+    guidance_scale=5,
+    h=768, w=768,
+    sampler='p_sampler', 
+    prior_cf_scale=4,
+    prior_steps="5"
+)
 ```
 
 
